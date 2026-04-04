@@ -22,7 +22,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // مسارات المستخدمين المصرح لهم
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'cache.headers:private,no-cache,no-store,max-age=0,must-revalidate'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/profile', [AuthController::class, 'updateProfile']);
