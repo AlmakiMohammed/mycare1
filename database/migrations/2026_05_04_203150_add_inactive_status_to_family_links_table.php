@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('family_links', function (Blueprint $table) {
-            DB::statement("ALTER TABLE family_links MODIFY COLUMN status ENUM('pending', 'approved', 'rejected', 'inactive') DEFAULT 'pending'");
-        });
+        // No changes needed - status column already supports string values including 'inactive'
+        // Laravel handles enum values as strings in PostgreSQL
     }
 
     /**
@@ -22,8 +20,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('family_links', function (Blueprint $table) {
-            DB::statement("ALTER TABLE family_links MODIFY COLUMN status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending'");
-        });
+        // No changes to reverse
     }
 };
