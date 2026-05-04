@@ -80,6 +80,7 @@ Route::middleware(['auth', 'no-cache'])->group(function () {
     Route::get('/family/pending-requests', [FamilyMemberController::class, 'myPendingRequests'])->name('family.my-pending-requests');
     Route::get('/family/patient/{id}', [FamilyMemberController::class, 'viewPatientData'])->name('family.view-patient-data');
     Route::get('/family/patient/{id}/health-report', [FamilyMemberController::class, 'viewHealthReport'])->name('family.view-health-report');
+    Route::get('/family/patient/{id}/download-report', [FamilyMemberController::class, 'downloadReport'])->name('family.download-report');
     Route::post('/family/patient/{id}/message', [FamilyMemberController::class, 'sendMessage'])->name('family.send-message');
     Route::delete('/family/patient/{id}/disconnect', [FamilyMemberController::class, 'disconnect'])->name('family.disconnect');
 

@@ -24,7 +24,32 @@ class ReportPolicy
     public function view(User $user, Report $report)
     {
         // المستخدم يمكنه رؤية التقرير إذا كان هو المالك أو المنشئ
-        return $user->id === $report->user_id || $user->id === $report->created_by;
+        if ($user->id === $report->user_id || $user->id === $report->created_by) {
+            return true;
+        }
+
+        // الطبيب يمكنه رؤية تقارير مرضاه
+        if ($user->isDoctor()) {
+            return \App\Models\DoctorPatient::where('doctor_id', $user->id)
+                ->where('patient_id', $report->user_id)
+                ->where('status', 'approved')
+                ->exists();
+        }
+
+        // فرد العائلة يمكنه رؤية تقارير المرضى المرتبطين به
+        if ($user->isFamilyMember()) {
+            return \App\Models\FamilyLink::where('family_member_id', $user->id)
+                ->where('patient_id', $report->user_id)
+                ->where('status', 'approved')
+                ->exists();
+        }
+
+        // الأدمين يمكنه رؤية جميع التقارير
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

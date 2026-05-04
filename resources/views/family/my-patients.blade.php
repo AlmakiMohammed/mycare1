@@ -74,7 +74,7 @@
                 <div style="text-align: center;">
                     <p style="margin: 0; font-size: 12px; color: #999;">آخر قياس</p>
                     <p style="margin: 5px 0 0 0; font-size: 14px;">
-                        {{ $link->patient->vitalSigns->latest()->first()?->recorded_at?->format('d/m') ?? 'لا يوجد' }}
+                        {{ $link->patient->vitalSigns->sortByDesc('measured_at')->first()?->measured_at?->format('d/m') ?? 'لا يوجد' }}
                     </p>
                 </div>
             </div>

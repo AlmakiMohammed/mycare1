@@ -47,14 +47,14 @@
 
             <!-- الإجراءات -->
             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <form action="{{ route('family.approve', $link->id) }}" method="POST">
+                <form action="{{ route('family-links.approve', $link->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-success btn-block" onclick="return confirm('هل تريد قبول هذا الطلب؟')">
                         ✅ قبول
                     </button>
                 </form>
 
-                <form action="{{ route('family.reject', $link->id) }}" method="POST">
+                <form action="{{ route('family-links.reject', $link->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('هل تريد رفض هذا الطلب؟')">
                         ❌ رفض

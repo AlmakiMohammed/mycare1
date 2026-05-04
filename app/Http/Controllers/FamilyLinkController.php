@@ -54,7 +54,7 @@ class FamilyLinkController extends Controller
 
     public function reject(FamilyLink $familyLink)
     {
-        $this->authorize('approve', $familyLink);
+        $this->authorize('reject', $familyLink);
         $familyLink->reject();
         return back()->with('success', 'تم رفض الطلب');
     }

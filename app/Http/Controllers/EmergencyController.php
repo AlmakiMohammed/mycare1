@@ -18,7 +18,7 @@ class EmergencyController extends Controller
     {
         $user = Auth::user();
         $familyMembers = $user->familyLinksAsPatient()
-            ->with('family_member')
+            ->with('familyMember')
             ->where('status', 'approved')
             ->get();
 
@@ -73,12 +73,12 @@ class EmergencyController extends Controller
     private function notifyFamilyMembers(User $patient, $latitude, $longitude, $address)
     {
         $familyMembers = $patient->familyLinksAsPatient()
-            ->with('family_member')
+            ->with('familyMember')
             ->where('status', 'approved')
             ->get();
 
         foreach ($familyMembers as $link) {
-            $familyMember = $link->family_member;
+            $familyMember = $link->familyMember;
 
             // إنشاء إشعار في قاعدة البيانات
             Notification::create([

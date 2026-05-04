@@ -74,12 +74,12 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             @foreach($recentVitalSigns as $sign)
                 <div style="padding: 10px; background: #f5f5f5; border-radius: 8px;">
-                    <p style="margin: 0; font-size: 11px; color: #999; text-transform: uppercase;">{{ $sign->sign_type }}</p>
+                    <p style="margin: 0; font-size: 11px; color: #999; text-transform: uppercase;">{{ $sign->getTypeLabel() }}</p>
                     <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: bold;">
-                        {{ $sign->value }} {{ $sign->unit }}
+                        {{ $sign->value_1 }}@if($sign->value_2) / {{ $sign->value_2 }}@endif {{ $sign->unit }}
                     </p>
                     <p style="margin: 3px 0 0 0; font-size: 10px; color: #999;">
-                        {{ $sign->recorded_at->format('d/m H:i') }}
+                        {{ $sign->measured_at ? $sign->measured_at->format('d/m H:i') : 'غير محدد' }}
                     </p>
                     @if($sign->is_abnormal)
                         <p style="margin: 5px 0 0 0; font-size: 10px; color: #d32f2f;">⚠️ غير طبيعي</p>

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\FamilyLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 /**
  * متحكم إدارة الارتباطات العائلية
@@ -225,16 +226,21 @@ class FamilyMemberController extends Controller
         $patient = User::findOrFail($patientId);
 
         // التحقق من الصلاحيات
-        FamilyLink::where('patient_id', $patient->id)
+        $familyLink = FamilyLink::where('patient_id', $patient->id)
             ->where('family_member_id', $familyMember->id)
             ->where('status', 'approved')
             ->firstOrFail();
 
-        // توليد التقرير
-        // يمكن استخدام DOMPDF أو مكتبة أخرى
-        \Log::info("تقرير تم تحميله من قبل {$familyMember->name} للمريض {$patient->name}");
+        // حساب الإحصائيات
+        $medicationCount = $patient->medications()->count();
+        $vitalSignsCount = $patient->vitalSigns()->count();
+        $complianceRate = $this->calculateCompliance($patient);
+        $recentVitalSigns = $patient->vitalSigns()->latest()->take(5)->get();
 
-        return back()->with('success', 'تم تحميل التقرير');
+        $data = compact('patient', 'medicationCount', 'vitalSignsCount', 'complianceRate', 'recentVitalSigns', 'familyLink');
+
+        $pdf = Pdf::loadView('family.health-report', $data);
+        return $pdf->download('health-report-' . $patient->name . '.pdf');
     }
 
     /**

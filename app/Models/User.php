@@ -17,6 +17,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'role',
+        'specialization',
         'profile_image',
         'bio',
         'disease_id',
@@ -125,6 +126,14 @@ class User extends Authenticatable
     public function doctorPatients()
     {
         return $this->hasMany(DoctorPatient::class, 'doctor_id');
+    }
+
+    /**
+     * طلبات الربط من المرضى (اسم بديل لـ doctorPatients)
+     */
+    public function patientRequests()
+    {
+        return $this->doctorPatients();
     }
 
     public function familyLinks()

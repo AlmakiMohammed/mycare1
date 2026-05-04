@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Medication::class => \App\Policies\MedicationPolicy::class,
         \App\Models\VitalSign::class => \App\Policies\VitalSignPolicy::class,
         \App\Models\Report::class => \App\Policies\ReportPolicy::class,
+        \App\Models\FamilyLink::class => \App\Policies\FamilyLinkPolicy::class,
     ];
 
     /**
